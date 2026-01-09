@@ -1,13 +1,9 @@
 import React from "react";
-import Desktop from "./Desktop"; // تأكد أن المسار هكذا بدون علامة @
+import Desktop from "./Desktop"; 
 import "./App.css";
 
 function App() {
-  return (
-    <div className="App">
-      <Desktop />
-    </div>
-  );
+  return <Desktop />;
 }
 
 export default App;
