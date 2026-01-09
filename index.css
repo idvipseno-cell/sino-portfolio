@@ -1,0 +1,271 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;500;600;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: 'Share Tech Mono', source-code-pro, Menlo, Monaco, Consolas, monospace;
+}
+
+@layer base {
+    :root {
+        /* Cyber Security Hacking OS Theme - Dark Mode Only */
+        --background: 210 100% 2%;
+        --foreground: 135 100% 70%;
+        
+        /* Matrix Green Neon Accents */
+        --primary: 135 100% 50%;
+        --primary-foreground: 210 100% 5%;
+        --primary-glow: 135 100% 60%;
+        
+        /* Cyan/Blue Neon Secondary */
+        --secondary: 190 100% 50%;
+        --secondary-foreground: 210 100% 5%;
+        --secondary-glow: 190 100% 60%;
+        
+        /* Window & UI Elements */
+        --card: 210 50% 8%;
+        --card-foreground: 135 100% 70%;
+        --popover: 210 60% 6%;
+        --popover-foreground: 135 100% 70%;
+        
+        /* Muted Elements */
+        --muted: 210 30% 15%;
+        --muted-foreground: 135 50% 50%;
+        
+        /* Accent (Magenta for alerts) */
+        --accent: 330 100% 55%;
+        --accent-foreground: 0 0% 100%;
+        
+        /* Destructive/Warning */
+        --destructive: 0 100% 60%;
+        --destructive-foreground: 0 0% 100%;
+        
+        /* Borders & Inputs */
+        --border: 135 80% 30%;
+        --input: 210 50% 12%;
+        --ring: 135 100% 50%;
+        
+        /* Custom Cyber Tokens */
+        --terminal-bg: 210 100% 3%;
+        --terminal-text: 135 100% 65%;
+        --window-border: 135 100% 50%;
+        --taskbar-bg: 210 50% 6%;
+        --desktop-bg: 210 100% 2%;
+        
+        /* Shadows & Glows */
+        --shadow-neon: 0 0 20px hsl(135 100% 50% / 0.5);
+        --shadow-window: 0 8px 32px hsl(0 0% 0% / 0.8);
+        --glow-primary: 0 0 10px hsl(135 100% 50% / 0.6), 0 0 20px hsl(135 100% 50% / 0.4);
+        --glow-secondary: 0 0 10px hsl(190 100% 50% / 0.6), 0 0 20px hsl(190 100% 50% / 0.4);
+        
+        /* Animations */
+        --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        --radius: 0.25rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+
+    [data-debug-wrapper="true"] > * {
+        margin-left: inherit;
+        margin-right: inherit;
+        margin-top: inherit;
+        margin-bottom: inherit;
+        padding-left: inherit;
+        padding-right: inherit;
+        padding-top: inherit;
+        padding-bottom: inherit;
+        column-gap: inherit;
+        row-gap: inherit;
+        gap: inherit;
+        border-left-width: inherit;
+        border-right-width: inherit;
+        border-top-width: inherit;
+        border-bottom-width: inherit;
+        border-left-style: inherit;
+        border-right-style: inherit;
+        border-top-style: inherit;
+        border-bottom-style: inherit;
+        border-left-color: inherit;
+        border-right-color: inherit;
+        border-top-color: inherit;
+        border-bottom-color: inherit;
+    }
+}
+
+
+/* Custom Cyber Security OS Styles */
+@layer components {
+    .desktop-bg {
+        background: linear-gradient(135deg, hsl(210 100% 2%), hsl(210 80% 3%));
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .desktop-bg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(135 100% 50% / 0.03) 2px, hsl(135 100% 50% / 0.03) 4px);
+        pointer-events: none;
+    }
+    
+    .window-glass {
+        background: hsl(var(--card) / 0.95);
+        backdrop-filter: blur(8px);
+        border: 1px solid hsl(var(--window-border) / 0.5);
+        box-shadow: var(--shadow-window), inset 0 1px 0 hsl(135 100% 50% / 0.1);
+    }
+    
+    .window-title-bar {
+        background: linear-gradient(180deg, hsl(210 50% 10%), hsl(210 50% 8%));
+        border-bottom: 1px solid hsl(var(--border));
+    }
+    
+    .terminal-window {
+        background: hsl(var(--terminal-bg));
+        color: hsl(var(--terminal-text));
+        font-family: 'Share Tech Mono', monospace;
+        text-shadow: 0 0 5px hsl(135 100% 50% / 0.5);
+    }
+    
+    .neon-text {
+        color: hsl(var(--primary));
+        text-shadow: var(--glow-primary);
+    }
+    
+    .neon-border {
+        border: 1px solid hsl(var(--primary));
+        box-shadow: var(--glow-primary);
+    }
+    
+    .taskbar {
+        background: linear-gradient(180deg, hsl(var(--taskbar-bg)), hsl(210 50% 4%));
+        border-top: 1px solid hsl(var(--border));
+        box-shadow: 0 -2px 10px hsl(0 0% 0% / 0.5);
+    }
+    
+    .icon-hover {
+        transition: all 0.2s ease;
+    }
+    
+    .icon-hover:hover {
+        transform: translateY(-2px);
+        filter: drop-shadow(0 4px 8px hsl(135 100% 50% / 0.4));
+    }
+    
+    .cyber-button {
+        background: linear-gradient(135deg, hsl(210 50% 12%), hsl(210 50% 8%));
+        border: 1px solid hsl(var(--border));
+        color: hsl(var(--foreground));
+        transition: all 0.2s ease;
+    }
+    
+    .cyber-button:hover {
+        border-color: hsl(var(--primary));
+        box-shadow: 0 0 10px hsl(135 100% 50% / 0.3);
+        transform: translateY(-1px);
+    }
+    
+    .matrix-rain {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.1;
+    }
+    
+    /* Scrollbar Styling */
+    .terminal-scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .terminal-scrollbar::-webkit-scrollbar-track {
+        background: hsl(210 50% 8%);
+    }
+    
+    .terminal-scrollbar::-webkit-scrollbar-thumb {
+        background: hsl(var(--primary) / 0.5);
+        border-radius: 4px;
+    }
+    
+    .terminal-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: hsl(var(--primary));
+    }
+    
+    /* Selection */
+    ::selection {
+        background: hsl(var(--primary) / 0.3);
+        color: hsl(var(--foreground));
+    }
+    
+    /* Animations */
+    @keyframes scanline {
+        0% {
+            transform: translateY(-100%);
+        }
+        100% {
+            transform: translateY(100%);
+        }
+    }
+    
+    @keyframes flicker {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.8;
+        }
+    }
+    
+    @keyframes pulse-glow {
+        0%, 100% {
+            box-shadow: 0 0 5px hsl(135 100% 50% / 0.5);
+        }
+        50% {
+            box-shadow: 0 0 20px hsl(135 100% 50% / 0.8);
+        }
+    }
+    
+    .animate-scanline {
+        animation: scanline 8s linear infinite;
+    }
+    
+    .animate-flicker {
+        animation: flicker 0.15s infinite;
+    }
+    
+    .animate-pulse-glow {
+        animation: pulse-glow 2s ease-in-out infinite;
+    }
+}
+
