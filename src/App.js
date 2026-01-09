@@ -1,6 +1,6 @@
-import "@/App.css";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Desktop from "@/components/Desktop";
+import Desktop from "./Desktop";
 
 function App() {
   return (
