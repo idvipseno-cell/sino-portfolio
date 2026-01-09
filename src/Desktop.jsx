@@ -1,184 +1,79 @@
-import { useState, useEffect } from 'react';
-import Window from './Window';
-import DesktopIcon from './DesktopIcon';
-import Taskbar from './Taskbar';
-import Terminal from './Terminal';
-import MyLibrary from './MyLibrary';
-import Skills from './Skills';
-import Projects from './Projects';
-import StartMenu from './StartMenu';
-import AudioPlayer from './AudioPlayer';
-import { FolderOpen, Code, BookOpen, Terminal as TerminalIcon } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { FolderOpen, Code, BookOpen, Terminal as TerminalIcon, X, Minus, Square } from 'lucide-react';
 
-export const Desktop = () => {
+// كود المنظومة المتكامل لـ محمد تقي رزاق
+const Desktop = () => {
   const [windows, setWindows] = useState([]);
-  const [nextZIndex, setNextZIndex] = useState(100);
   const [showStartMenu, setShowStartMenu] = useState(false);
 
-  const openWindow = (id, title, icon, content) => {
-    const existingWindow = windows.find(w => w.id === id);
-    
-    if (existingWindow) {
-      bringToFront(id);
-      return;
-    }
-
-    const newWindow = {
-      id,
-      title,
-      icon,
-      content,
-      position: { x: 100 + windows.length * 30, y: 80 + windows.length * 30 },
-      size: { width: 700, height: 500 },
-      zIndex: nextZIndex,
-      minimized: false
-    };
-
+  // دالة فتح النوافذ
+  const openWindow = (id, title, content) => {
+    if (windows.find(w => w.id === id)) return;
+    const newWindow = { id, title, content };
     setWindows([...windows, newWindow]);
-    setNextZIndex(nextZIndex + 1);
   };
 
-  const closeWindow = (id) => {
-    setWindows(windows.filter(w => w.id !== id));
-  };
-
-  const minimizeWindow = (id) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, minimized: true } : w
-    ));
-  };
-
-  const restoreWindow = (id) => {
-    const window = windows.find(w => w.id === id);
-    if (window) {
-      setWindows(windows.map(w => 
-        w.id === id ? { ...w, minimized: false, zIndex: nextZIndex } : w
-      ));
-      setNextZIndex(nextZIndex + 1);
-    }
-  };
-
-  const bringToFront = (id) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, zIndex: nextZIndex } : w
-    ));
-    setNextZIndex(nextZIndex + 1);
-  };
-
-  const updateWindowPosition = (id, position) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, position } : w
-    ));
-  };
-
-  const updateWindowSize = (id, size) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, size } : w
-    ));
-  };
-
-  const desktopIcons = [
-    {
-      id: 'my-library',
-      label: 'My Library',
-      icon: <FolderOpen className="w-8 h-8" />,
-      onClick: () => openWindow('my-library', 'My Library', <FolderOpen className="w-4 h-4" />, <MyLibrary />)
-    },
-    {
-      id: 'skills',
-      label: 'Skills',
-      icon: <Code className="w-8 h-8" />,
-      onClick: () => openWindow('skills', 'Skills', <Code className="w-4 h-4" />, <Skills />)
-    },
-    {
-      id: 'projects',
-      label: 'Projects',
-      icon: <BookOpen className="w-8 h-8" />,
-      onClick: () => openWindow('projects', 'Projects', <BookOpen className="w-4 h-4" />, <Projects />)
-    },
-    {
-      id: 'terminal',
-      label: 'Terminal',
-      icon: <TerminalIcon className="w-8 h-8" />,
-      onClick: () => openWindow('terminal', 'Terminal', <TerminalIcon className="w-4 h-4" />, <Terminal />)
-    }
-  ];
-
-  useEffect(() => {
-    const handleClickOutside = () => {
-      setShowStartMenu(false);
-    };
-
-    if (showStartMenu) {
-      document.addEventListener('click', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [showStartMenu]);
+  const closeWindow = (id) => setWindows(windows.filter(w => w.id !== id));
 
   return (
-    <div className="desktop-bg w-screen h-screen overflow-hidden relative">
-      {/* Matrix Rain Effect (subtle) */}
-      <div className="matrix-rain" />
+    <div className="w-screen h-screen overflow-hidden relative bg-black text-green-500 font-mono">
+      {/* خلفية ماتريكس بسيطة */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#1a1a1a_1px,transparent_1px)] [background-size:20px_20px]" />
 
-      {/* Desktop Icons */}
-      <div className="absolute top-8 left-8 flex flex-col gap-6 z-10">
-        {desktopIcons.map((icon) => (
-          <DesktopIcon
-            key={icon.id}
-            label={icon.label}
-            icon={icon.icon}
-            onClick={icon.onClick}
-          />
-        ))}
+      {/* أيقونات سطح المكتب */}
+      <div className="absolute top-8 left-8 flex flex-col gap-8 z-10">
+        <button onClick={() => openWindow('info', 'USER_INFO', <UserInfo />)} className="flex flex-col items-center gap-2 hover:bg-green-500/10 p-2 rounded transition-all">
+          <TerminalIcon className="w-10 h-10" />
+          <span className="text-xs">SINO_INFO</span>
+        </button>
+        <button onClick={() => openWindow('skills', 'SKILLS', <Skills />)} className="flex flex-col items-center gap-2 hover:bg-green-500/10 p-2 rounded transition-all">
+          <Code className="w-10 h-10" />
+          <span className="text-xs">SKILLS</span>
+        </button>
       </div>
 
-      {/* Windows */}
-      {windows.map((window) => (
-        !window.minimized && (
-          <Window
-            key={window.id}
-            id={window.id}
-            title={window.title}
-            icon={window.icon}
-            position={window.position}
-            size={window.size}
-            zIndex={window.zIndex}
-            onClose={() => closeWindow(window.id)}
-            onMinimize={() => minimizeWindow(window.id)}
-            onFocus={() => bringToFront(window.id)}
-            onPositionChange={(pos) => updateWindowPosition(window.id, pos)}
-            onSizeChange={(size) => updateWindowSize(window.id, size)}
-          >
-            {window.content}
-          </Window>
-        )
+      {/* عرض النوافذ المفتوحة */}
+      {windows.map((win) => (
+        <div key={win.id} className="absolute top-20 left-1/4 w-[500px] bg-black border-2 border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.3)] z-20">
+          <div className="bg-green-500 text-black p-1 flex justify-between items-center cursor-move">
+            <span className="text-sm font-bold ml-2">{win.title}</span>
+            <div className="flex gap-1">
+              <button className="hover:bg-green-600 p-1"><Minus size={14} /></button>
+              <button onClick={() => closeWindow(win.id)} className="hover:bg-red-500 p-1"><X size={14} /></button>
+            </div>
+          </div>
+          <div className="p-4 h-[300px] overflow-auto">
+            {win.content}
+          </div>
+        </div>
       ))}
 
-      {/* Start Menu */}
-      {showStartMenu && (
-        <StartMenu
-          onOpenWindow={openWindow}
-          onClose={() => setShowStartMenu(false)}
-        />
-      )}
-
-      {/* Audio Player */}
-      <AudioPlayer />
-
-      {/* Taskbar */}
-      <Taskbar
-        windows={windows}
-        onWindowClick={restoreWindow}
-        onStartClick={(e) => {
-          e.stopPropagation();
-          setShowStartMenu(!showStartMenu);
-        }}
-      />
+      {/* شريط المهام السفلي */}
+      <div className="absolute bottom-0 w-full h-12 bg-black border-t-2 border-green-500 flex items-center px-4 gap-4 z-30">
+        <button onClick={() => setShowStartMenu(!showStartMenu)} className="bg-green-500 text-black px-4 py-1 font-bold hover:bg-green-400">START</button>
+        <div className="text-xs ml-auto">IP: 192.168.1.100 | BAGHDAD_STATION</div>
+      </div>
     </div>
   );
 };
+
+// مكونات المحتوى (بديلة للملفات المفقودة)
+const UserInfo = () => (
+  <div className="space-y-2">
+    <p>> NAME: محمد تقي رزاق (سينو)</p>
+    <p>> AGE: 26 YEARS OLD</p>
+    <p>> RANK: CYBER SECURITY EXPERT</p>
+    <p>> AUTHOR: بوابة الأمن السيبراني: من الصفر إلى الاحتراف</p>
+  </div>
+);
+
+const Skills = () => (
+  <div className="grid grid-cols-2 gap-2">
+    <div className="border border-green-800 p-2 italic">> Penetration Testing</div>
+    <div className="border border-green-800 p-2 italic">> Python for Hacking</div>
+    <div className="border border-green-800 p-2 italic">> Network Security</div>
+    <div className="border border-green-800 p-2 italic">> Social Engineering</div>
+  </div>
+);
 
 export default Desktop;
