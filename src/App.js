@@ -1,15 +1,11 @@
+import React from "react";
+import Desktop from "./Desktop"; // تأكد أن المسار هكذا بدون علامة @
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Desktop from "./Desktop";
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Desktop />} />
-        </Routes>
-      </BrowserRouter>
+      <Desktop />
     </div>
   );
 }
